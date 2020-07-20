@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'SBGenericTool_Example' do
+  pod 'SBGenericTool', :path => '../'
+
+  target 'SBGenericTool_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
