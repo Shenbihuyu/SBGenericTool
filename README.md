@@ -17,12 +17,12 @@ SBGenericTool is available through [CocoaPods](https://cocoapods.org). To instal
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'SBGenericTool'
+pod 'SBGenericTool', :git => 'https://github.com/Shenbihuyu/SBGenericTool.git'
 ```
 
 ## Author
 
-waing, waingjianpeng@outlook.com
+shenbihuyu, support@shenbihuyu.com
 
 ## License
 

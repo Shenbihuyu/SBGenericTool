@@ -9,63 +9,63 @@
 import UIKit
 import SnapKit
 
-enum SBDevOption : String {
+public enum SBDevOption : String {
     case showAd // 显示广告
     case isIAP  // 走苹果内购
 }
 let devOptionKey = "com.devOption."
 
-protocol UserDefaultsable {
-    var  saveKey : String { get }
+public protocol UserDefaultsable {
+    var saveKey : String { get }
 }
 
 /// 保存为 bool 类型
 /// 显示在开发页面  带有一个开关控件
-protocol DevOptionSwitchable : UserDefaultsable {
+public protocol DevOptionSwitchable : UserDefaultsable {
     var  isOn : Bool { get }
     func setSwitch(isOn newValue: Bool)
 }
 
 /// 保存为 Int类型
 /// 显示在开发页面 可查看数值 ，带有一个归0按钮
-protocol DevOptionCountable : UserDefaultsable {
+public protocol DevOptionCountable : UserDefaultsable {
     var  count : Int { get }
     func setCount(_ count: Int)
 }
 
 /// 能够显示在 开发页面
-protocol DevOptionCellAble {
+public protocol DevOptionCellAble {
     var title  : String { get }
     var detail : String? { get }
 }
 
 extension SBDevOption: DevOptionSwitchable, DevOptionCellAble {
-    var title : String {
+    public var title : String {
         switch self {
         case .showAd: return "是否显示广告"
         case .isIAP : return "是否开启沙盒储值"
         }
     }
-    var detail : String? {
+    public var detail : String? {
         switch self {
         case .showAd: return "开发模式下，打开开关后会更具当前时间逻辑显示广告，关闭则不显示广告"
         case .isIAP : return "开发模式下，打开开关后会走苹果的沙盒支付逻辑，关闭则使用本地车上数据完成购买"
         }
     }
-    internal var saveKey : String {
+    public var saveKey : String {
         return devOptionKey + String(describing: self)
     }
-    var isOn : Bool {
+    public var isOn : Bool {
         return UserDefaults.standard.object(forKey: saveKey) as? Bool ?? true
     }
-    func setSwitch(isOn newValue: Bool) {
+    public func setSwitch(isOn newValue: Bool) {
         UserDefaults.standard.set(newValue, forKey: saveKey)
         UserDefaults.standard.synchronize()
     }
 }
 
 /// 开发设置页面
-class DevSettingViewController: UIViewController {
+public class DevSettingViewController: UIViewController {
     fileprivate let cellIdentifier = "devTableCell"
     fileprivate var optionsList : [DevOptionCellAble] = [SBDevOption.showAd, SBDevOption.isIAP]
     
@@ -95,7 +95,7 @@ class DevSettingViewController: UIViewController {
         return button
     }()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         title = "开发设置"
         
@@ -131,11 +131,11 @@ class DevSettingViewController: UIViewController {
 }
 
 extension DevSettingViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return optionsList.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DevTableCell
         
         cell.model = optionsList[indexPath.row]
