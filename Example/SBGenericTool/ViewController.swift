@@ -7,11 +7,13 @@
 //
 
 import UIKit
-
+import SBGenericTool
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(MemberToolBox.appVersion())
         // Do any additional setup after loading the view, typically from a nib.
     }
 

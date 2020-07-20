@@ -9,8 +9,8 @@
 Pod::Spec.new do |s|
   s.name             = 'SBGenericTool'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of SBGenericTool.'
-
+  s.summary          = '神笔互娱 开发通用工具.'
+  s.swift_version    = '5.0'
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
 #   * Try to keep it short, snappy and to the point.
@@ -21,10 +21,10 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/waing/SBGenericTool'
+  s.homepage         = 'https://github.com/Shenbihuyu/SBGenericTool.git'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'waing' => 'waingjianpeng@outlook.com' }
+  s.author           = { 'shenbihuyu' => 'support@shenbihuyu.com' }
   s.source           = { :git => 'https://github.com/waing/SBGenericTool.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
@@ -32,11 +32,13 @@ TODO: Add long description of the pod here.
 
   s.source_files = 'SBGenericTool/Classes/**/*'
   
+  s.ios.deployment_target = '10.0'
   # s.resource_bundles = {
   #   'SBGenericTool' => ['SBGenericTool/Assets/*.png']
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'SnapKit'
+  s.requires_arc  = true
 end
