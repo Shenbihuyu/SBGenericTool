@@ -50,17 +50,17 @@ public class WebKitViewController: UIViewController, WKNavigationDelegate {
         self.activityView.stopAnimating()
     }
     
-   public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let _url = navigationAction.request.url {
-            if _url.absoluteString == self.netUrl {
-                decisionHandler(.allow)
-            } else {
-                decisionHandler(.cancel)
-            }
-            return
-        }
-        decisionHandler(.cancel)
-    }
+    //   public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+    //        if let _url = navigationAction.request.url {
+    //            if _url.absoluteString == self.netUrl {
+    //                decisionHandler(.allow)
+    //            } else {
+    //                decisionHandler(.cancel)
+    //            }
+    //            return
+    //        }
+    //        decisionHandler(.cancel)
+    //    }
     
     
     lazy var webView: WKWebView = {

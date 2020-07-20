@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SBGenericTool'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = '神笔互娱 开发通用工具.'
   s.swift_version    = '5.0'
 # This description is used to generate tags and improve search results.
@@ -37,7 +37,7 @@ TODO: Add long description of the pod here.
   #   'SBGenericTool' => ['SBGenericTool/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  # s.public_header_files = 'Pod/Classes/**/*'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'SnapKit'
   s.requires_arc  = true
