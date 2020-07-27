@@ -9,34 +9,11 @@
 import UIKit
 import SnapKit
 
+let devOptionKey = "com.devOption."
+
 public enum SBDevOption : String {
     case showAd // 显示广告
     case isIAP  // 走苹果内购
-}
-let devOptionKey = "com.devOption."
-
-public protocol UserDefaultsable {
-    var saveKey : String { get }
-}
-
-/// 保存为 bool 类型
-/// 显示在开发页面  带有一个开关控件
-public protocol DevOptionSwitchable : UserDefaultsable {
-    var  isOn : Bool { get }
-    func setSwitch(isOn newValue: Bool)
-}
-
-/// 保存为 Int类型
-/// 显示在开发页面 可查看数值 ，带有一个归0按钮
-public protocol DevOptionCountable : UserDefaultsable {
-    var  count : Int { get }
-    func setCount(_ count: Int)
-}
-
-/// 能够显示在 开发页面
-public protocol DevOptionCellAble {
-    var title  : String { get }
-    var detail : String? { get }
 }
 
 extension SBDevOption: DevOptionSwitchable, DevOptionCellAble {
@@ -51,16 +28,6 @@ extension SBDevOption: DevOptionSwitchable, DevOptionCellAble {
         case .showAd: return "开发模式下，打开开关后会更具当前时间逻辑显示广告，关闭则不显示广告"
         case .isIAP : return "开发模式下，打开开关后会走苹果的沙盒支付逻辑，关闭则使用本地车上数据完成购买"
         }
-    }
-    public var saveKey : String {
-        return devOptionKey + String(describing: self)
-    }
-    public var isOn : Bool {
-        return UserDefaults.standard.object(forKey: saveKey) as? Bool ?? true
-    }
-    public func setSwitch(isOn newValue: Bool) {
-        UserDefaults.standard.set(newValue, forKey: saveKey)
-        UserDefaults.standard.synchronize()
     }
 }
 
@@ -89,8 +56,8 @@ public class DevSettingViewController: UIViewController {
     fileprivate lazy var resetButton : UIButton = { [weak self] in
         let button = UIButton(type: .custom)
         button.setTitle("重置购买", for: .normal)
-        button.backgroundColor = .systemRed
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.systemRed , for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 30, bottom: 10, right: 30)
         button.addTarget(self, action: #selector(resetVip), for: .touchUpInside)
         return button
     }()
@@ -109,8 +76,6 @@ public class DevSettingViewController: UIViewController {
             view.addSubview(resetButton)
             view.frame = CGRect(x: 0, y: 0, width: 600, height: 70)
             resetButton.snp.makeConstraints { (make) in
-                make.width.equalToSuperview().offset(-30)//.equalTo(180)
-                make.height.equalToSuperview().offset(-30)
                 make.center.equalToSuperview()
             }
             return view
@@ -130,17 +95,27 @@ public class DevSettingViewController: UIViewController {
     }
 }
 
-extension DevSettingViewController: UITableViewDelegate, UITableViewDataSource {
+extension DevSettingViewController: UITableViewDelegate, UITableViewDataSource, DevTableCellDelegate {
+    func showAlert(withString str: String) {
+        let alert = UIAlertController(title: str, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "确认", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return optionsList.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DevTableCell
-        
         cell.model = optionsList[indexPath.row]
+        cell.delegate = self
         return cell
     }
+}
+
+protocol DevTableCellDelegate : class {
+    func showAlert(withString str: String)
 }
 
 class DevTableCell: UITableViewCell {
@@ -206,17 +181,24 @@ class DevTableCell: UITableViewCell {
         infoLabel.isHidden = true
     }
     
+    weak var delegate : DevTableCellDelegate?
+    
     var model : DevOptionCellAble? {
         didSet {
             guard let _model = model else { return }
+            // cell text
             titleLabel.text = _model.title
             if let _detail = _model.detail {
                 infoLabel.text = _detail
                 infoLabel.isHidden = false
             }
+            // 操作
             if let switchModel = model as? DevOptionSwitchable {
                 switchView.isHidden = false
                 switchView.isOn = switchModel.isOn
+            }else if let _ = model as? DevOptionCopyable {
+                resetButton.isHidden = false
+                resetButton.setTitle("复制", for: .normal)
             }else if let countModel = model as? DevOptionCountable {
                 resetButton.isHidden = false
                 resetButton.setTitle(String(format: "重置 (%d)", countModel.count), for: .normal)
@@ -241,9 +223,14 @@ class DevTableCell: UITableViewCell {
         if let countModel = model as? DevOptionCountable {
             countModel.setCount(0)
             resetButton.setTitle(String(format: "重置 (%d)", countModel.count), for: .normal)
+            delegate?.showAlert(withString: "重置成功")
+        }else if let copyModel = model as? DevOptionCopyable {
+            UIPasteboard.general.string = copyModel.copyString
+            delegate?.showAlert(withString: "复制成功")
         }else if let _model = model as? UserDefaultsable { //只有重置功能 必须放在最后
             UserDefaults.standard.set(nil, forKey: _model.saveKey)
             UserDefaults.standard.synchronize()
+            delegate?.showAlert(withString: "重置成功")
         }
     }
 }
