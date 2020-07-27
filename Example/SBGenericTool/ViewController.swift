@@ -32,33 +32,46 @@ class ViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        switch CellType(rawValue: indexPath.row) {
-        case .shareApp:
-            MemberToolBox.shareApp(onViewController: self)
-        case .recommendApp:
-            MemberToolBox.recommendAtAppStore(recommendAppid: "1504377117")
-        case .comments:
-            MemberToolBox.commentsAtAppStore()
-        case .suggest:
-            MemberToolBox.presentSuggestView(onViewController: self, suggestUrl: 问卷星意见link)
-        case .privacy:
-            MemberToolBox.presentWebPage(onViewController: self,
-                                         url: 隐私政策link,
-                                         title: "隐私政策")
-        case .dev:
+        if indexPath.section == 0 {
+            switch CellType(rawValue: indexPath.row) {
+            case .shareApp:
+                MemberToolBox.shareApp(onViewController: self)
+            case .recommendApp:
+                MemberToolBox.recommendAtAppStore(recommendAppid: "1504377117")
+            case .comments:
+                MemberToolBox.commentsAtAppStore()
+            case .suggest:
+                MemberToolBox.presentSuggestView(onViewController: self, suggestUrl: 问卷星意见link)
+            case .privacy:
+                MemberToolBox.presentWebPage(onViewController: self,
+                                             url: 隐私政策link,
+                                             title: "隐私政策")
+            default: break
+            }
+        }else {
             devAction()
-        default:
-            break
         }
     }
     
     func devAction() {
         let vc = DevSettingViewController()
         vc.addOption(VipDownloadCount())
+        vc.addOption(UserInfoCopy())
         vc.ipaResetCallBack = {
 
         }
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+}
+
+struct UserInfoCopy: DevOptionCellAble, DevOptionCopyable {
+    var copyString: String {
+        return "广告ID"
+    }
+    var detail: String? { return nil }
+    var title: String {
+        return "广告ID"
     }
     
 }
@@ -68,19 +81,10 @@ struct VipDownloadCount: DevOptionCountable, DevOptionCellAble {
     var title: String {
         return "vip下载次数"
     }
-    var saveKey: String {
-        return "com.videotool.downLoadCount"
-    }
-    var count: Int {
-        return UserDefaults.standard.object(forKey: saveKey) as? Int ?? 0
-    }
-    func setCount(_ count: Int) {
-        UserDefaults.standard.set(count, forKey: saveKey)
-        UserDefaults.standard.synchronize()
-    }
     func addCount() {
         setCount(self.count + 1)
     }
 }
+
 let 问卷星意见link = "https://www.wjx.cn/jq/84580778.aspx"
 let 隐私政策link = "http://www.shenbihuyu.com/app_privacy.html"
