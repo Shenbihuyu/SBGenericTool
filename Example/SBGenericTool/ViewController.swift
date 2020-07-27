@@ -9,47 +9,44 @@
 import UIKit
 import SBGenericTool
 
-enum CellType : Int{
-    case shareApp
+enum CellType : Int, CaseIterable{
+    case shareApp = 0
     case recommendApp
     case comments
     case suggest
     case privacy
-    case dev
+    case dev = 1000
+    
+    init?(indexPath: IndexPath) {
+        if let type = CellType.init(rawValue: indexPath.section * 1000 + indexPath.row) {
+            self = type
+        }else {
+            return nil
+        }
+    }
 }
+
 
 class ViewController: UITableViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.section == 0 {
-            switch CellType(rawValue: indexPath.row) {
-            case .shareApp:
-                MemberToolBox.shareApp(onViewController: self)
-            case .recommendApp:
-                MemberToolBox.recommendAtAppStore(recommendAppid: "1504377117")
-            case .comments:
-                MemberToolBox.commentsAtAppStore()
-            case .suggest:
-                MemberToolBox.presentSuggestView(onViewController: self, suggestUrl: 问卷星意见link)
-            case .privacy:
-                MemberToolBox.presentWebPage(onViewController: self,
-                                             url: 隐私政策link,
-                                             title: "隐私政策")
-            default: break
-            }
-        }else {
+        switch CellType(indexPath: indexPath) {
+        case .shareApp:
+            MemberToolBox.shareApp(onViewController: self)
+        case .recommendApp:
+            MemberToolBox.recommendAtAppStore(recommendAppid: "1504377117")
+        case .comments:
+            MemberToolBox.commentsAtAppStore()
+        case .suggest:
+            MemberToolBox.presentSuggestView(onViewController: self, suggestUrl: 问卷星意见link)
+        case .privacy:
+            MemberToolBox.presentWebPage(onViewController: self,
+                                         url: 隐私政策link,
+                                         title: "隐私政策")
+        case .dev:
             devAction()
+        default: break
         }
     }
     
@@ -87,4 +84,4 @@ struct VipDownloadCount: DevOptionCountable, DevOptionCellAble {
 }
 
 let 问卷星意见link = "https://www.wjx.cn/jq/84580778.aspx"
-let 隐私政策link = "http://www.shenbihuyu.com/app_privacy.html"
+let 隐私政策link = "https://www.shenbihuyu.com/app_privacy.html"
