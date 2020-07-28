@@ -20,11 +20,11 @@ extension UIColor {
                   alpha: alpha)
     }
     
-    public convenience init(netHex:Int ,alpha: CGFloat = 1) {
+    public convenience init(netHex:Int, alpha: CGFloat = 1) {
         self.init(red:(netHex >> 16) & 0xff, green:(netHex >> 8) & 0xff, blue:netHex & 0xff, alpha: alpha)
     }
     
-    public convenience init(strHex: String) {
+    public convenience init(strHex: String, alpha: CGFloat = 1) {
         var cString:String = strHex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
         if (cString.hasPrefix("#")) {
@@ -34,7 +34,7 @@ extension UIColor {
         Scanner(string: cString).scanHexInt64(&rgbValue)
         
         if cString.count == 6 {
-            self.init(netHex: Int(rgbValue))
+            self.init(netHex: Int(rgbValue), alpha: alpha)
         }else if cString.count == 8 {
             self.init(netHex: Int(rgbValue >> 8), alpha: CGFloat(rgbValue & 0xff) / 255.0)
         }else{
