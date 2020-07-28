@@ -10,7 +10,10 @@ import UIKit
 
 public class MemberToolBox: NSObject {
     public static let shared = MemberToolBox()
-    // MARK: 分享与评论
+}
+
+// MARK: 分享与评论
+extension MemberToolBox{
     /// 分享该APP
     /// - Parameter vc: 弹窗ViewController
     public class func shareApp(onViewController vc:UIViewController ) {
@@ -67,11 +70,13 @@ public class MemberToolBox: NSObject {
             })
         }
     }
-    
-    // MARK: webview
+}
+
+// MARK: webview
+extension MemberToolBox {
     /// 问卷调查
     /// - Parameters: 拉起问卷调查webview
-    ///   - vc: 承载vc
+    ///   - vc: 承载ViewController
     ///   - netUrl: 问卷链接
     public class func presentSuggestView(onViewController vc: UIViewController,
                                          suggestUrl netUrl: String?) {
@@ -81,7 +86,7 @@ public class MemberToolBox: NSObject {
     
     /// 打开本地html文件
     /// - Parameters:
-    ///   - vc: 承载VC
+    ///   - vc: 承载ViewController
     ///   - fileName: 文件名
     ///   - title: webviewcollection 标题
     public class func presentWebPage(onViewController vc: UIViewController,
@@ -115,9 +120,11 @@ public class MemberToolBox: NSObject {
             vc.present(webview, animated: true, completion: { () -> Void in })
         }
     }
-    
-    
-    // MARK: const
+}
+
+
+// MARK: const
+extension MemberToolBox {
     /// 获取APPID （需要在info中配置 appid
     /// - Returns: appid
     public class func appId() -> String{
