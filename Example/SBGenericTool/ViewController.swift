@@ -9,26 +9,19 @@
 import UIKit
 import SBGenericTool
 
-enum CellType : Int, CaseIterable{
+
+enum CellType : Int, IndexPathGeneticable, CaseIterable  {
+    
     case shareApp = 0
     case recommendApp
     case comments
     case suggest
     case privacy
-    case dev = 1000
     
-    init?(indexPath: IndexPath) {
-        if let type = CellType.init(rawValue: indexPath.section * 1000 + indexPath.row) {
-            self = type
-        }else {
-            return nil
-        }
-    }
+    case dev = 100
 }
 
-
 class ViewController: UITableViewController {
-
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         switch CellType(indexPath: indexPath) {

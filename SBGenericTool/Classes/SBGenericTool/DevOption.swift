@@ -59,3 +59,35 @@ public protocol DevOptionCellAble {
     var title  : String { get }
     var detail : String? { get }
 }
+
+
+/// 提供将indexPath 转换为 enum 生成方式
+/// For example , `SettingCell`.
+///
+///     enum SettingCell: Int  IndexPathGeneticable {
+///         static var minRow : Int { return 10 }
+///         case xxx = 0 , yyy, zzz   // section = 0
+///         case aaa = 10 , bb , cc   // section  = 1
+///     }
+///     let cell = SettingCell(indexPath: .init(row: 1, section: 1))
+///     // cell == .bb  true
+public protocol IndexPathGeneticable: RawRepresentable {
+    
+    /// 指定section转换时的系数, 默认为100
+    static var minRow : Int { get }
+}
+
+extension RawRepresentable where Self : IndexPathGeneticable, Self.RawValue == Int {
+    
+    public static var minRow : Int { return 100 }
+    
+    /// return  .(rawValue: indexPath.section * Self.minRow + indexPath.row)
+    /// - Parameter indexPath: indexPath
+    public init?(indexPath: IndexPath) {
+        if let type = Self.init(rawValue: (indexPath.section * Self.minRow + indexPath.row)) {
+            self = type
+        }else {
+            return nil
+        }
+    }
+}
