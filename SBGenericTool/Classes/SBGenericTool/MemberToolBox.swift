@@ -15,8 +15,10 @@ public class MemberToolBox: NSObject {
 // MARK: 分享与评论
 extension MemberToolBox{
     /// 分享该APP
-    /// - Parameter vc: 弹窗ViewController
-    public class func shareApp(onViewController vc:UIViewController ) {
+    /// - Parameters:
+    ///   - vc: 弹窗ViewController
+    ///   - sourceView: 支持iPad的必须传入
+    public class func shareApp(onViewController vc:UIViewController, sourceView: UIView? = nil) {
         let textToShare = MemberToolBox.appName()
         let imageToShare = UIImage.init(named: "icon")
         let urlToShare = NSURL.init(string: "https://apps.apple.com/cn/app/id" + MemberToolBox.appId())
@@ -38,6 +40,9 @@ extension MemberToolBox{
         let activityVC = UIActivityViewController(
             activityItems: items,
             applicationActivities: nil)
+        if let popOver = activityVC.popoverPresentationController {
+            popOver.sourceView = sourceView
+        }
         activityVC.excludedActivityTypes = exclude
         activityVC.completionWithItemsHandler =  { activity, success, items, error in
             if success {
