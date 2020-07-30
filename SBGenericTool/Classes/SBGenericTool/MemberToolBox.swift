@@ -23,17 +23,9 @@ extension MemberToolBox{
         let imageToShare = UIImage.init(named: "icon")
         let urlToShare = NSURL.init(string: "https://apps.apple.com/cn/app/id" + MemberToolBox.appId())
         let items = [textToShare,imageToShare as Any,urlToShare as Any] as [Any]
-        var exclude:[UIActivity.ActivityType] = [UIActivity.ActivityType.message,
-                                                 UIActivity.ActivityType.airDrop,
-                                                 UIActivity.ActivityType.mail,
-                                                 UIActivity.ActivityType.assignToContact,
-                                                 UIActivity.ActivityType.postToVimeo,
-                                                 UIActivity.ActivityType.print,
-                                                 UIActivity.ActivityType.copyToPasteboard,
-                                                 UIActivity.ActivityType.saveToCameraRoll,
-                                                 UIActivity.ActivityType.postToFlickr,
-                                                 UIActivity.ActivityType.openInIBooks,
-                                                 UIActivity.ActivityType.addToReadingList]
+        var exclude:[UIActivity.ActivityType] = [.message, .airDrop, .mail, .assignToContact,
+                                                 .postToVimeo, .print, .copyToPasteboard, .saveToCameraRoll,
+                                                 .postToFlickr, .openInIBooks, .addToReadingList]
         if #available(iOS 11.0, *) {
             exclude.append(UIActivity.ActivityType.markupAsPDF)
         }
@@ -74,6 +66,56 @@ extension MemberToolBox{
                 debugPrint("recommend opened: \(success)") // Prints true
             })
         }
+    }
+}
+
+// MARK: version
+extension MemberToolBox {
+    public typealias VersionCompletion = ((_ version: String?)->())
+    /// 检查版本号
+    ///  获取商店版本号 比较本地版本号
+    /// - Parameter completion: version : 商店版本号， 子线程回调
+    public class func checkAppStoreVersion(completion: MemberToolBox.VersionCompletion?) {
+        let bundleIdentifire = MemberToolBox.appBundleID()
+        if bundleIdentifire.count == 0 {
+            print("No Bundle Info found.")
+            completion?(nil)
+        }
+        // Build App Store URL
+        guard let url = URL(string:"http://itunes.apple.com/lookup?bundleId=" + bundleIdentifire) else {
+            print("Isse with generating URL.")
+            completion?(nil)
+            return
+        }
+        let serviceTask = URLSession.shared.dataTask(with: url) { (responseData, response, error) in
+            do {
+                if let error = error { throw error }
+                guard let data = responseData else { return }
+                if let resultData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any],
+                    let results = resultData["results"] as? [[String : Any]],
+                    let result = results.first,
+                    let version = result["version"] as? String {
+                    DispatchQueue.main.async {
+                        completion?(version)
+                    }
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completion?(nil)
+                }
+            }
+        }
+        serviceTask.resume()
+    }
+    
+    /// 更新APP - 跳转到应用商店
+    public class func updataAtAppStore() {
+        let appid = MemberToolBox.appId()
+        let commentsUrl = "itms-apps://itunes.apple.com/cn/app/id\(appid)"
+        UIApplication.shared.open(URL(string: commentsUrl)!, completionHandler: { (success) in
+            debugPrint("updata opened: \(success)") // Prints true
+        })
+        
     }
 }
 
@@ -143,9 +185,19 @@ extension MemberToolBox {
     
     /// 获取APP 名称 BundleName
     /// - Returns: APP 名称
-    public  class func appName() -> String{
+    public class func appName() -> String{
         let infoDictionary = Bundle.main.infoDictionary!
         guard let appid = infoDictionary["CFBundleName"] as? String else {
+            return ""
+        }
+        return appid
+    }
+    
+    /// 获取APP 名称 BundleId
+    /// - Returns: APP Bundle ID 名称
+    public class func appBundleID() -> String {
+        let infoDictionary = Bundle.main.infoDictionary!
+        guard let appid = infoDictionary["CFBundleIdentifier"] as? String else {
             return ""
         }
         return appid

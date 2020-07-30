@@ -12,7 +12,8 @@ import SBGenericTool
 
 enum CellType : Int, IndexPathGeneticable, CaseIterable  {
     
-    case shareApp = 0
+    case update = 0
+    case shareApp
     case recommendApp
     case comments
     
@@ -23,9 +24,24 @@ enum CellType : Int, IndexPathGeneticable, CaseIterable  {
 }
 
 class ViewController: UITableViewController {
+    @IBOutlet weak var versionLabel: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        MemberToolBox.checkAppStoreVersion { (version) in
+            if let version = version {
+                if version != MemberToolBox.appVersion() {
+                    self.versionLabel.text = version
+                }
+            }
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         switch CellType(indexPath: indexPath) {
+        case .update:
+            MemberToolBox.updataAtAppStore()
         case .shareApp:
             MemberToolBox.shareApp(onViewController: self)
         case .recommendApp:
