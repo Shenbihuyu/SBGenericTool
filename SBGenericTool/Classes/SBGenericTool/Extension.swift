@@ -65,6 +65,19 @@ extension UIImage {
         guard let cgImage = image?.cgImage else { return nil }
         self.init(cgImage: cgImage)
     }
+    
+    
+    /// 生成带有偏移量图片
+    /// - Parameter offset: 偏移量
+    /// - Returns: 新图片
+    func movePosition(offset: CGPoint) -> UIImage {
+        let size = self.size
+        UIGraphicsBeginImageContextWithOptions(size, false, 2)
+        self.draw(in: CGRect(x: offset.x, y: offset.y, width: size.width, height: size.height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+    }
 }
 
 //MARK: - 导航栏
@@ -77,21 +90,24 @@ extension UIApplicationDelegate {
     ///   - imageName: 返回按钮图片
     public func setUpNavigationBar(backgroundColor : UIColor = .white,
                               tintColor : UIColor = UIColor.black,
-                              imageName : String = "nb_back") {
+                              imageName : String = "nb_back" ,offset: CGPoint) {
         var backButtonImage = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
-        backButtonImage = backButtonImage?.stretchableImage(withLeftCapWidth: 10, topCapHeight: 10)
+//        backButtonImage = backButtonImage?.stretchableImage(withLeftCapWidth: 10, topCapHeight: 10)
+        backButtonImage = backButtonImage?.movePosition(offset: offset)
         
         let backgroundImage = UIImage.init(color: backgroundColor)
         
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
+            // 背景颜色
             appearance.backgroundColor = backgroundColor
             appearance.shadowImage = backgroundImage
-            appearance.setBackIndicatorImage(backgroundImage, transitionMaskImage: backgroundImage)
+            // 控件颜色
             appearance.titleTextAttributes = [
                 NSAttributedString.Key.foregroundColor: tintColor as Any
             ]
+            // 返回按钮
             appearance.setBackIndicatorImage(backButtonImage, transitionMaskImage: backButtonImage)
             let buttonAppearance = UIBarButtonItemAppearance()
             buttonAppearance.normal.titleTextAttributes = [.foregroundColor: tintColor as Any]
@@ -102,12 +118,15 @@ extension UIApplicationDelegate {
             UINavigationBar.appearance().compactAppearance = appearance
             UIBarButtonItem.appearance().tintColor = tintColor
         } else {
+            // 背景颜色
             UINavigationBar.appearance().barTintColor = backgroundColor
+            UINavigationBar.appearance().shadowImage = backgroundImage
+            // 控件颜色
             UINavigationBar.appearance().titleTextAttributes = [
                 NSAttributedString.Key.foregroundColor: tintColor as Any
             ]
             UINavigationBar.appearance().tintColor = tintColor
-            UINavigationBar.appearance().shadowImage = backgroundImage
+            // 返回按钮
             UINavigationBar.appearance().backIndicatorImage = backButtonImage
             UINavigationBar.appearance().backIndicatorTransitionMaskImage = backButtonImage
         }
