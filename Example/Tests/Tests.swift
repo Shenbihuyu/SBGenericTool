@@ -13,16 +13,23 @@ class Tests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testVersionModelnil() {
         // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+        UserDefaults.standard.removeObject(forKey: SBVersion.saveKey) // 清空本地缓存
+        XCTAssert(SBVersion.anquan == false, "未请求数据时，版本状态为安全")
+        XCTAssert(SBVersion.guanggao == false, "未请求数据时，版本状态为开启广告")
+    }
+    func testVersionModelzero() {
+        let version = SBVersion(audit: 0, advert: 0) // 模拟网络请求
+        version.save()
+        XCTAssert(SBVersion.anquan == false, "")
+        XCTAssert(SBVersion.guanggao == false, "")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure() {
-            // Put the code you want to measure the time of here.
-        }
+    func testVersionModelHasValue() {
+        let version2 = SBVersion(audit: 1, advert: 5) // 模拟网络请求
+        version2.save()
+        XCTAssert(SBVersion.anquan == true, "")
+        XCTAssert(SBVersion.guanggao == true, "")
     }
-    
 }

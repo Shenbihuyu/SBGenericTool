@@ -21,20 +21,32 @@ enum CellType : Int, IndexPathGeneticable, CaseIterable  {
     case privacy
     
     case dev = 200
+    
+    case version = 300
 }
 
 class ViewController: UITableViewController {
     @IBOutlet weak var versionLabel: UILabel!
+    @IBOutlet weak var serverVersionLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadServerVersion()
+        
         MemberToolBox.checkAppStoreVersion { (version) in
             if let version = version {
-                if version != MemberToolBox.appVersion() {
-                    self.versionLabel.text = version
-                }
+                self.versionLabel.text = "商店版本号\(version), 本地版本号\(MemberToolBox.appVersion())"
+            }else {
+                self.versionLabel.text = "商店没有该APP"
             }
         }
+    }
+    
+    func loadServerVersion() {
+        serverVersionLabel.text = (SBVersion.anquan ? "安全" : "不安全") +
+            " , " +
+            (SBVersion.guanggao ? "开广告" : "关广告")
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -56,6 +68,10 @@ class ViewController: UITableViewController {
                                          title: "隐私政策")
         case .dev:
             devAction()
+        case .version:
+            VersionMenager.checkVersion { (version, error) in
+                self.loadServerVersion()
+            }
         default: break
         }
     }
