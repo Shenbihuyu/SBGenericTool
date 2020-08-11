@@ -48,22 +48,25 @@ extension MemberToolBox{
     
     
     /// 去苹果商店评论
-    public class func commentsAtAppStore() {
+    public class func commentsAtAppStore(completionHandler: ((_ success: Bool)->Void)? = nil ) {
         let appid = MemberToolBox.appId()
         let commentsUrl = "itms-apps://itunes.apple.com/cn/app/id\(appid)?mt=8&action=write-review"
         UIApplication.shared.open(URL(string: commentsUrl)!, completionHandler: { (success) in
-            debugPrint("comments opened: \(success)") // Prints true
+            debugPrint("comments opened: \(success)")
+            completionHandler?(success)
         })
     }
     
     
     /// 推荐APP - 跳转到应用商店
     /// - Parameter appid: 推荐APP的APPID
-    public class func recommendAtAppStore(recommendAppid appid: String?) {
+    public class func recommendAtAppStore(recommendAppid appid: String?,
+                                          completionHandler: ((_ success: Bool)->Void)? = nil) {
         if let _appid = appid {
             let commentsUrl = "itms-apps://itunes.apple.com/cn/app/id\(_appid)"
             UIApplication.shared.open(URL(string: commentsUrl)!, completionHandler: { (success) in
                 debugPrint("recommend opened: \(success)") // Prints true
+                completionHandler?(success)
             })
         }
     }
@@ -73,36 +76,40 @@ extension MemberToolBox{
 extension MemberToolBox {
     public typealias VersionCompletion = ((_ version: String?)->())
     /// 检查版本号
-    ///  获取商店版本号 比较本地版本号
-    /// - Parameter completion: version : 商店版本号， 子线程回调
+    /// 通过Bundle ID获取商店版本号
+    /// - Parameter completion: version : 商店版本号
     public class func checkAppStoreVersion(completion: MemberToolBox.VersionCompletion?) {
+        func mainQueueCallback(_ version: String?) {
+            DispatchQueue.main.async {
+                completion?(version)
+            }
+        }
+         
         let bundleIdentifire = MemberToolBox.appBundleID()
         if bundleIdentifire.count == 0 {
-            print("No Bundle Info found.")
+            debugPrint("No Bundle Info found.")
             completion?(nil)
         }
         // Build App Store URL
         guard let url = URL(string:"http://itunes.apple.com/lookup?bundleId=" + bundleIdentifire) else {
-            print("Isse with generating URL.")
+            debugPrint("Isse with generating URL.")
             completion?(nil)
             return
         }
         let serviceTask = URLSession.shared.dataTask(with: url) { (responseData, response, error) in
             do {
                 if let error = error { throw error }
-                guard let data = responseData else { return }
-                if let resultData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any],
+                if let data = responseData,
+                    let resultData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String:Any],
                     let results = resultData["results"] as? [[String : Any]],
                     let result = results.first,
                     let version = result["version"] as? String {
-                    DispatchQueue.main.async {
-                        completion?(version)
-                    }
+                    mainQueueCallback(version)
+                }else {
+                    mainQueueCallback(nil)
                 }
             } catch {
-                DispatchQueue.main.async {
-                    completion?(nil)
-                }
+                mainQueueCallback(nil)
             }
         }
         serviceTask.resume()
@@ -148,7 +155,7 @@ extension MemberToolBox {
     ///   - netUrl: url
     ///   - title: vc title
     public class func presentWebPage(onViewController vc: UIViewController,
-                                     url netUrl: String? ,title: String?) {
+                                     url netUrl: String?, title: String?) {
         MemberToolBox.presentWebView(onViewController: vc, netUrl: netUrl, localFile: nil, title: title)
     }
     
