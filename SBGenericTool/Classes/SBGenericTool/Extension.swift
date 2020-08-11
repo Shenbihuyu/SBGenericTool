@@ -88,21 +88,27 @@ extension UIApplicationDelegate {
     ///   - backgroundColor: 背景颜色
     ///   - tintColor: 导航栏标题与按钮颜色
     ///   - imageName: 返回按钮图片
+    ///   - offset: 返回按钮图标偏移
+    ///   - clearShadow: 是否替换分割线
     public func setUpNavigationBar(backgroundColor : UIColor = .white,
                               tintColor : UIColor = UIColor.black,
-                              imageName : String = "nb_back" ,offset: CGPoint) {
+                              imageName : String = "nb_back",
+                              offset: CGPoint = .zero,
+                              clearShadow: Bool = true) {
         var backButtonImage = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
 //        backButtonImage = backButtonImage?.stretchableImage(withLeftCapWidth: 10, topCapHeight: 10)
         backButtonImage = backButtonImage?.movePosition(offset: offset)
         
-        let backgroundImage = UIImage.init(color: backgroundColor)
+        let backgroundImage = UIImage.init(color: .clear)
         
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
             // 背景颜色
             appearance.backgroundColor = backgroundColor
-            appearance.shadowImage = backgroundImage
+            if clearShadow {
+                appearance.shadowImage = backgroundImage
+            }
             // 控件颜色
             appearance.titleTextAttributes = [
                 NSAttributedString.Key.foregroundColor: tintColor as Any
@@ -120,7 +126,9 @@ extension UIApplicationDelegate {
         } else {
             // 背景颜色
             UINavigationBar.appearance().barTintColor = backgroundColor
-            UINavigationBar.appearance().shadowImage = backgroundImage
+            if clearShadow {
+                UINavigationBar.appearance().shadowImage = backgroundImage
+            }
             // 控件颜色
             UINavigationBar.appearance().titleTextAttributes = [
                 NSAttributedString.Key.foregroundColor: tintColor as Any
@@ -161,7 +169,7 @@ extension DispatchQueue {
             isMainQueue ? execute() : DispatchQueue.main.async(execute: execute)
         }
         let specificKey = DispatchSpecificKey<String>()
-        let specificValue = "com.dumbass.mainQueue.specific"
+        let specificValue = "com.shenbihuyu.mainQueue.specific"
         static let `default` = DispachQueueSafety()
     }
     
