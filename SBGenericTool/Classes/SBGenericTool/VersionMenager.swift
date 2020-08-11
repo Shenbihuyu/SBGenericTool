@@ -9,17 +9,21 @@
 import UIKit
 
 
-//MARK: - 参数
+//MARK: - 单例
 public class VersionMenager: NSObject {
     public static let shared = VersionMenager()
+    
+    /// 服务器地址
     public var baseUrl = ""
+    /// 加密key
     public var key = ""
+    /// 应用名称
     public var appName = ""
 }
 
+//MARK: - 网络请求
 public extension VersionMenager {
     fileprivate static let comefrom = "ios"
-    
     fileprivate class var networkParameters : [String : Any] {
         var parameters = [String : Any]()
         parameters["appCode"]  = Self.shared.appName
@@ -29,6 +33,9 @@ public extension VersionMenager {
         parameters.setSignature("appCode,comefrom,version,timestamp,key")
         return parameters
     }
+    
+    /// 检查后台的版本信息
+    /// - Parameter completionHandler: 回调
     class func checkVersion(completionHandler: @escaping (SBVersion?, Error?) -> Void) {
         assert(!Self.shared.baseUrl.isEmpty, "必须设置 VersionMenager.shared.baseUrl")
         assert(!Self.shared.appName.isEmpty, "必须设置 VersionMenager.shared.appName")
@@ -41,31 +48,35 @@ public extension VersionMenager {
             [Self.shared.appName, Self.comefrom, version].joined(separator: "/")
         
         guard var urlComponents = URLComponents(string: urlStr) else {
-            completionHandler(nil, NSError(domain: "链接错误", code: 10001, userInfo: nil))
+            completionHandler(nil, NSError(domain: "url error", code: 10001, userInfo: ["url": urlStr]))
             return
         }
         urlComponents.queryItems = networkParameters.map { URLQueryItem(name: $0.key, value: $0.value as? String) }
-
         guard let url = urlComponents.url else {
-            completionHandler(nil, NSError(domain: "链接错误", code: 10001, userInfo: nil))
+            completionHandler(nil, NSError(domain: "url error", code: 10001, userInfo: ["parameters": networkParameters]))
             return
         }
         var request = URLRequest.init(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
         request.httpMethod = "GET"
         
-        let theSession = URLSession.shared
-        let theTask = theSession.dataTask(with: request) { ( data, urlRespone, error) in
+        let task = URLSession.shared.dataTask(with: request) { ( data, urlRespone, error) in
             do {
-                guard let _data = data else { throw NSError(domain: "空数据", code: 10002, userInfo: nil) }
+                guard let _data = data else { throw NSError(domain: "no date", code: 10002, userInfo: nil) }
                 let root = try JSONDecoder().decode(SBNetRootModel.self, from: _data)
-                print(root.data)
-                completionHandler(root.data, nil)
+                root.data.save()
+                DispatchQueue.safe.async {
+                    completionHandler(root.data, nil)
+                }
             } catch {
-                completionHandler(nil, error)
+                DispatchQueue.safe.async {
+                    completionHandler(nil, error)
+                }
             }
         }
-        theTask.resume()
+        task.resume()
     }
+    
+    /// 根数据
     fileprivate struct SBNetRootModel: Codable {
         let data: SBVersion
         let code: Int
@@ -79,6 +90,11 @@ public struct SBVersion: Codable {
     var advertStatus: Int = 0
     var versions: String?
     
+    public init(audit: Int, advert: Int) {
+        auditStatus = audit
+        advertStatus = advert
+    }
+    
     enum SBVersionCodingKeys: String, CodingKey {
         case auditStatus, advertStatus
         case versions
@@ -87,11 +103,15 @@ public struct SBVersion: Codable {
 
 // MARK:- save & load
 public extension SBVersion {
-    static let saveKey = "com.shenbi.version"
+    static let saveKey = "com.shenbihuyu.version"
+    
+    /// 保存至UserDefaults
     func save() {
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self), forKey: Self.saveKey)
         UserDefaults.standard.synchronize()
     }
+    
+    /// 读取本地UserDefaults
     static var `default`: SBVersion? {
         if let data = UserDefaults.standard.value(forKey: saveKey) as? Data ,
             let dict = try? PropertyListDecoder().decode(Self.self, from: data) {
@@ -100,12 +120,16 @@ public extension SBVersion {
         return nil
     }
     
+    /// 是否安全
     static var anquan : Bool {
-        return Self.default?.auditStatus == 0
+        guard let model = Self.default else { return false }
+        return model.auditStatus != 0
     }
     
+    /// 是否开启广告
     static var guanggao : Bool {
-        return Self.default?.advertStatus == 0
+        guard let model = Self.default else { return false }
+        return model.advertStatus != 0
     }
 }
 
