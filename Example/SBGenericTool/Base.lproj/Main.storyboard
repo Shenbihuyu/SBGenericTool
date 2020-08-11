@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--标题-->
         <scene sceneID="Izw-to-fj3">
             <objects>
                 <tableViewController id="LYd-zh-VL1" customClass="ViewController" customModule="SBGenericTool_Example" customModuleProvider="target" sceneMemberID="viewController">
@@ -154,14 +154,43 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="版本检查" id="1oR-Je-B4P">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="kkz-gS-hJO" detailTextLabel="D8l-Mr-nDG" style="IBUITableViewCellStyleValue1" id="hlL-G1-vff">
+                                        <rect key="frame" x="0.0" y="528" width="375" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hlL-G1-vff" id="l4X-0Q-nFX">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="版本检查" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kkz-gS-hJO">
+                                                    <rect key="frame" x="16" y="12" width="69.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D8l-Mr-nDG">
+                                                    <rect key="frame" x="315" y="12" width="44" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="LYd-zh-VL1" id="ve3-g6-Grx"/>
                             <outlet property="delegate" destination="LYd-zh-VL1" id="23G-mX-b8T"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="QYc-iH-RoC"/>
+                    <navigationItem key="navigationItem" title="标题" id="QYc-iH-RoC"/>
                     <connections>
+                        <outlet property="serverVersionLabel" destination="D8l-Mr-nDG" id="1yA-eE-L5v"/>
                         <outlet property="versionLabel" destination="eoZ-QW-V8B" id="JHC-7N-HuQ"/>
                     </connections>
                 </tableViewController>
