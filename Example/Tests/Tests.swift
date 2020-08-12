@@ -22,14 +22,14 @@ class Tests: XCTestCase {
     func testVersionModelzero() {
         let version = SBVersion(audit: 0, advert: 0) // 模拟网络请求
         version.save()
-        XCTAssert(SBVersion.anquan == false, "")
+        XCTAssert(SBVersion.anquan == true, "")
         XCTAssert(SBVersion.guanggao == false, "")
     }
     
     func testVersionModelHasValue() {
         let version2 = SBVersion(audit: 1, advert: 5) // 模拟网络请求
         version2.save()
-        XCTAssert(SBVersion.anquan == true, "")
+        XCTAssert(SBVersion.anquan == false, "")
         XCTAssert(SBVersion.guanggao == true, "")
     }
 }

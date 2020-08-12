@@ -86,9 +86,10 @@ public extension VersionMenager {
 // MARK:- model
 
 public struct SBVersion: Codable {
-    var auditStatus: Int = 0
-    var advertStatus: Int = 0
-    var versions: String?
+    public var auditStatus: Int = 0
+    public var advertStatus: Int = 0
+    public var versions: String?
+    
     
     public init(audit: Int, advert: Int) {
         auditStatus = audit
@@ -123,7 +124,7 @@ public extension SBVersion {
     /// 是否安全
     static var anquan : Bool {
         guard let model = Self.default else { return false }
-        return model.auditStatus != 0
+        return model.auditStatus == 0
     }
     
     /// 是否开启广告
