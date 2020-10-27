@@ -15,6 +15,8 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		C1FD43639011989725080CBD /* Pods_SBGenericTool_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A971B497145D92F8E31B7F /* Pods_SBGenericTool_Example.framework */; };
+		C507356C25411AEF00357C35 /* RecommendAppTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C507356B25411AEF00357C35 /* RecommendAppTableViewController.swift */; };
+		C5662B7225466D400027B6D1 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5662B7125466D400027B6D1 /* FeedbackViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,8 @@
 		6D78F4D5CC68DF561986C55A /* Pods-SBGenericTool_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBGenericTool_Example.debug.xcconfig"; path = "Target Support Files/Pods-SBGenericTool_Example/Pods-SBGenericTool_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		7FA472A1C633DF678AE44E9E /* Pods_SBGenericTool_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SBGenericTool_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FA4687EB7CE86ABEFF4CA2C /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		C507356B25411AEF00357C35 /* RecommendAppTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendAppTableViewController.swift; sourceTree = "<group>"; };
+		C5662B7125466D400027B6D1 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		D495F40D2BEA869149C45DD9 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		F06DF28F2741788C46534575 /* Pods-SBGenericTool_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SBGenericTool_Example.release.xcconfig"; path = "Target Support Files/Pods-SBGenericTool_Example/Pods-SBGenericTool_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,10 +110,12 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				C507356B25411AEF00357C35 /* RecommendAppTableViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				C5662B7125466D400027B6D1 /* FeedbackViewController.swift */,
 			);
 			name = "Example for SBGenericTool";
 			path = SBGenericTool;
@@ -336,6 +342,8 @@
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				C507356C25411AEF00357C35 /* RecommendAppTableViewController.swift in Sources */,
+				C5662B7225466D400027B6D1 /* FeedbackViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
