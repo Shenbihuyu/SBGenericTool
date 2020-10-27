@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SBGenericTool'
-  s.version          = '0.1.5.1'
+  s.version          = '0.1.6'
   s.summary          = '神笔互娱 开发通用工具.'
   s.swift_version    = '5.0'
 # This description is used to generate tags and improve search results.

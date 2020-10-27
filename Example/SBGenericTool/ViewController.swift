@@ -15,6 +15,8 @@ enum CellType : Int, IndexPathGeneticable, CaseIterable  {
     case update = 0
     case shareApp
     case recommendApp
+    case recommendAppNet
+    case feedback
     case comments
     
     case suggest = 100
