@@ -7,9 +7,59 @@
 //
 
 import UIKit
+import StoreKit
 
 public class MemberToolBox: NSObject {
     public static let shared = MemberToolBox()
+}
+
+
+// StoreKit
+// APP内打开AppStore
+extension MemberToolBox: SKStoreProductViewControllerDelegate {
+    
+    ///  在APP内拉起 AppStore页面
+    ///     有传入vc: 先尝试拉起 AppStoreProductViewController ， 拉起失败将跳转到 APP Store
+    ///     没有传入vc: 将立刻跳转到 APP Store
+    ///
+    ///     由于需要联网读取APP信息，可以添加loading 并在 completionHandler 里取消
+    ///
+    /// - Parameters:
+    ///   - appid: 需要跳转的APPID
+    ///   - viewController: 页面承接vc
+    ///   - completionHandler: 回调true: 成功跳转或者成功加载数据，false: appid无效或无法跳转
+    public func recommendAtAppStore(appid: String?,
+                                    on viewController: UIViewController? = nil,
+                                    completionHandler: ((_ success: Bool)->Void)? = nil) {
+        guard let _appid = appid else {
+            completionHandler?(false)
+            return
+        }
+        let openUrl = {
+            let commentsUrl = "itms-apps://itunes.apple.com/cn/app/id\(_appid)"
+            UIApplication.shared.open(URL(string: commentsUrl)!, completionHandler: { (success) in
+                debugPrint("recommend opened: \(success)") // Prints true
+                completionHandler?(success)
+            })
+        }
+        if let _viewController = viewController {
+            let skVC = SKStoreProductViewController()
+            skVC.delegate = self
+            skVC.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier : _appid]) { (result, error) in
+                if !result {
+                    openUrl()
+                }else {
+                    completionHandler?(result)
+                    _viewController.present(skVC, animated: false)
+                }
+            }
+        }else{
+            openUrl()
+        }
+    }
+    public func productViewControllerDidFinish(_ viewController: SKStoreProductViewController) {
+        viewController.dismiss(animated: true, completion: nil)
+    }
 }
 
 // MARK: 分享与评论
