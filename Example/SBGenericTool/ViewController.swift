@@ -59,7 +59,9 @@ class ViewController: UITableViewController {
         case .shareApp:
             MemberToolBox.shareApp(onViewController: self)
         case .recommendApp:
-            MemberToolBox.recommendAtAppStore(recommendAppid: "1504377117")
+            MemberToolBox.shared.recommendAtAppStore(appid: "1504377117", on: self, completionHandler: { (success) in
+                
+            })
         case .comments:
             MemberToolBox.commentsAtAppStore()
         case .suggest:
