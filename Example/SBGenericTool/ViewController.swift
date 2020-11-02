@@ -72,6 +72,10 @@ class ViewController: UITableViewController {
                                          title: "隐私政策")
         case .dev:
             devAction()
+        case .feedback:
+            let vc = SBFeedbackViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            break
         case .version:
             VersionMenager.checkVersion { (version, error) in
                 self.loadServerVersion()

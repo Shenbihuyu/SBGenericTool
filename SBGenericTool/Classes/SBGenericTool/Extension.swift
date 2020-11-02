@@ -156,6 +156,21 @@ extension String {
     }
 }
 
+//MARK: - pod内多语言
+extension String{
+    class NoUse {}
+    var SBlocalized: String {
+        let bundlePaths = Bundle(for: NoUse.self).paths(forResourcesOfType: "bundle", inDirectory: nil)
+        guard bundlePaths.count > 0 , let resourcePath = bundlePaths.first else {
+            return self
+        }
+        let resourceBundle = Bundle(path: resourcePath)
+        let msg = NSLocalizedString(self, tableName: nil, bundle: resourceBundle!, value: "", comment: "")
+        return msg
+    }
+}
+
+
 //MARK: - 安全线程
 extension DispatchQueue {
     public struct DispachQueueSafety {

@@ -33,9 +33,9 @@ TODO: Add long description of the pod here.
   s.source_files = 'SBGenericTool/Classes/**/*'
   
   s.ios.deployment_target = '10.0'
-  # s.resource_bundles = {
-  #   'SBGenericTool' => ['SBGenericTool/Assets/*.png']
-  # }
+   s.resource_bundles = {
+     'SBGenericTool' => ['SBGenericTool/Assets/*']
+   }
 
   # s.public_header_files = 'Pod/Classes/**/*'
   # s.frameworks = 'UIKit', 'MapKit'

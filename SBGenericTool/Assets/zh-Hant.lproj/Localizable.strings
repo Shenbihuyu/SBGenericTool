@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  Pods
+
+  Created by 王剑鹏 on 2020/10/30.
+  
+*/
+"Feedback" = "問題反饋";
+
+"Feedbacktitle" = "為了幫助您提供更好的服務，希望您可以幫助我們完成以下問題，萬分感謝！";
+
+"message" = "1.您覺得我們的軟件有什麼優缺點?有缺點的地方您希望我們做出怎麼樣的改進";
+"message_supplement" = "請您盡可能詳細的描述您的意見或者建議,會快速幫助我們理解您的需求";
+"connet" = "2.可以留下您的郵箱,方便我們與您溝通";
+
+"send" = "發送";
+
+"Sent successfully" = "發送成功";
+"Failed to send" = "發送失敗";
+"Message cannot be empty" = "內容不能為空";
+
