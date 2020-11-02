@@ -113,9 +113,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="bER-MY-lCc" kind="push" id="sUL-5p-PpF"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="ww3-HY-aly" style="IBUITableViewCellStyleDefault" id="5Rr-kT-7D9">
                                         <rect key="frame" x="0.0" y="273" width="375" height="43.5"/>
@@ -239,88 +236,6 @@
             </objects>
             <point key="canvasLocation" x="983.20000000000005" y="25.637181409295355"/>
         </scene>
-        <!--意见反馈-->
-        <scene sceneID="Qax-9o-M54">
-            <objects>
-                <viewController id="bER-MY-lCc" customClass="FeedbackViewController" customModule="SBGenericTool_Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="HP7-Sb-W4e"/>
-                        <viewControllerLayoutGuide type="bottom" id="W5w-vJ-4SP"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="14e-Tl-hl8">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VfG-iQ-LvS">
-                                <rect key="frame" x="16" y="64" width="343" height="253"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系方式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zVq-VP-Mpl">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rcv-NO-CH6">
-                                        <rect key="frame" x="0.0" y="28.5" width="343" height="38"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="38" id="6qZ-Ju-OMR"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="8"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="内容" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bw-YS-i3L">
-                                        <rect key="frame" x="0.0" y="74.5" width="343" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dhn-Qu-aZK">
-                                        <rect key="frame" x="0.0" y="103" width="343" height="150"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="150" id="mMy-rZ-ClQ"/>
-                                        </constraints>
-                                        <color key="textColor" systemColor="labelColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="8"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </textView>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="VfG-iQ-LvS" firstAttribute="leading" secondItem="14e-Tl-hl8" secondAttribute="leadingMargin" id="Eg7-8t-JZj"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="VfG-iQ-LvS" secondAttribute="trailing" id="PXq-tf-JXN"/>
-                            <constraint firstItem="VfG-iQ-LvS" firstAttribute="top" secondItem="HP7-Sb-W4e" secondAttribute="bottom" constant="20" id="WOA-QG-Iqi"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="意见反馈" id="coZ-T3-mJK">
-                        <barButtonItem key="rightBarButtonItem" title="发送" id="DOR-b6-HDk">
-                            <connections>
-                                <action selector="sendAction:" destination="bER-MY-lCc" id="Vdc-ZT-MMb"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="contactTextField" destination="rcv-NO-CH6" id="Boe-r2-rOr"/>
-                        <outlet property="messageTextView" destination="dhn-Qu-aZK" id="oTh-Nq-xbU"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lj5-rT-n4h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1894" y="403"/>
-        </scene>
         <!--推荐APP列表-->
         <scene sceneID="jxY-Oe-jbB">
             <objects>
@@ -389,14 +304,8 @@
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="tertiarySystemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
