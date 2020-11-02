@@ -21,13 +21,6 @@ public class WebKitViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         
         self.view.addSubview(webView)
-        webView.snp.makeConstraints { (make) in
-            if #available(iOS 11.0, *) {
-                make.edges.equalTo(self.additionalSafeAreaInsets)
-            } else {
-                make.edges.equalToSuperview()
-            }
-        }
         self.view.addSubview(activityView)
         activityView.center = self.view.center
         self.activityView.stopAnimating()
@@ -63,8 +56,9 @@ public class WebKitViewController: UIViewController, WKNavigationDelegate {
     //    }
     
     
-    lazy var webView: WKWebView = {
-        let webview = WKWebView()
+    lazy var webView: WKWebView = { [weak self] in
+        let webview = WKWebView(frame: self?.view.frame ?? .zero)
+        webview.autoresizingMask = [.flexibleHeight,.flexibleWidth]
         webview.navigationDelegate = self
         return webview
     }()

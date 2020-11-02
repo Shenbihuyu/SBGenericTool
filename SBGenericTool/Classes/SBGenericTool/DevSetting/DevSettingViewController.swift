@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 let devOptionKey = "com.devOption."
 
@@ -43,8 +42,8 @@ public class DevSettingViewController: UIViewController {
     /// 重置购买按钮响应
     open var ipaResetCallBack : (() -> Void)?
     
-    fileprivate lazy var tableView : UITableView = {
-        let tableview = UITableView()
+    fileprivate lazy var tableView : UITableView = { [weak self] in
+        let tableview = UITableView(frame: self?.view.frame ?? .zero)
         tableview.delegate = self
         tableview.dataSource = self
         tableview.allowsSelection = false
@@ -67,17 +66,17 @@ public class DevSettingViewController: UIViewController {
         title = "开发设置"
         
         self.view.addSubview(tableView)
-        tableView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
-        }
+        tableView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         tableView.tableFooterView = {
             let view = UIView()
             view.addSubview(resetButton)
             view.frame = CGRect(x: 0, y: 0, width: 600, height: 70)
-            resetButton.snp.makeConstraints { (make) in
-                make.center.equalToSuperview()
-            }
+            resetButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                resetButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                resetButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            ])
             return view
         }()
         
@@ -169,10 +168,14 @@ class DevTableCell: UITableViewCell {
         stackView.alignment = .center
         stackView.spacing = 16
         
-        self.addSubview(stackView)
-        stackView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self).inset(15)
-        }
+        contentView.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15)
+        ])
     }
     
     override func prepareForReuse() {
