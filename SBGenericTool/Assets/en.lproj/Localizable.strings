@@ -14,6 +14,7 @@
 "connet" = "2. You can leave your mailbox to facilitate our communication with you";
 
 "send" = "send";
+"sending" = "sending";
 
 "Sent successfully" = "Sent successfully";
 "Failed to send" = "Failed to send";

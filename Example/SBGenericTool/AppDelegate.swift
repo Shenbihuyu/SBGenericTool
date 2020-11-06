@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SBGenericTool
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        SBServerMenager.shared.appName = "Demo"
+        SBServerMenager.shared.baseUrl = "http://api.shenbihuyu.com:9898/"
+        SBServerMenager.shared.key = "SHEN#BI&HU!YU=="
+        SBServerMenager.shared.machineid = "SBSingleID.singleID()"
+        
         return true
     }
 

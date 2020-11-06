@@ -14,6 +14,7 @@
 "connet" = "2.可以留下您的郵箱,方便我們與您溝通";
 
 "send" = "發送";
+"sending" = "發送中";
 
 "Sent successfully" = "發送成功";
 "Failed to send" = "發送失敗";
