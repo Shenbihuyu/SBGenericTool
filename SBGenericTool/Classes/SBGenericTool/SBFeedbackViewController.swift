@@ -164,14 +164,19 @@ extension SBFeedbackViewController {
 
 // MARK: - 提交
 extension SBFeedbackViewController {
-    @objc func sendAction(_ sender: Any? = nil) {
+    @objc func sendAction(_ sender: UIBarButtonItem? = nil) {
         if messageTextView.text.isEmpty {
             self.showNoMessageAlert()
             return
         }
+        sender?.isEnabled = false
+        sender?.title = "sending".SBlocalized
+        view.endEditing(true)
         SBServerMenager.feedback(message: messageTextView.text ?? "",
                                  contact: contactTextField.text ?? "")
         { [weak self] (success, error) in
+            sender?.isEnabled = true
+            sender?.title = "send".SBlocalized
             if self?.sendSuccessComplete != nil {
                 self?.dismissAction()
             }else{
