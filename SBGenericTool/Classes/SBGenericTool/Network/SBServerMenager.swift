@@ -20,6 +20,8 @@ public class SBServerMenager: NSObject {
     
     public var machineid = ""
     
+    public var uid = ""
+    
     public var language : String? 
 }
 
@@ -29,13 +31,15 @@ public extension SBServerMenager {
     /// 请求用基础参数
     fileprivate class var networkParameters : [String : Any] {
         var parameters = [String : Any]()
-        parameters["app_code"]  = Self.shared.appName
-        parameters["comefrom"] = Self.comefrom
-        parameters["machineid"] = Self.shared.machineid
-        parameters["ip"] = "0"
-        parameters["timestamp"] = String(Int(Date().timeIntervalSince1970 * 1000))
-        parameters["system"] = UIDevice.current.systemVersion
-        parameters["models"] = UIDevice.modelName
+        parameters["app_code"]   = Self.shared.appName
+        parameters["comefrom"]   = Self.comefrom
+        parameters["machineid"]  = Self.shared.machineid
+        parameters["ip"]         = "0"
+        parameters["timestamp"]  = String(Int(Date().timeIntervalSince1970 * 1000))
+        parameters["system"]     = UIDevice.current.systemVersion
+        parameters["models"]     = UIDevice.modelName
+        parameters["uid"]        = Self.shared.uid
+        parameters["version"]    = MemberToolBox.appVersion()
         parameters.setSignature("appCode,comefrom,version,timestamp,key")
         return parameters
     }
