@@ -20,7 +20,7 @@ public class SBServerMenager: NSObject {
     
     public var machineid = ""
     
-    public var language : String? = "zh-Hans"
+    public var language : String? 
 }
 
 public extension SBServerMenager {
@@ -34,6 +34,8 @@ public extension SBServerMenager {
         parameters["machineid"] = Self.shared.machineid
         parameters["ip"] = "0"
         parameters["timestamp"] = String(Int(Date().timeIntervalSince1970 * 1000))
+        parameters["system"] = UIDevice.current.systemVersion
+        parameters["models"] = UIDevice.modelName
         parameters.setSignature("appCode,comefrom,version,timestamp,key")
         return parameters
     }
@@ -128,6 +130,38 @@ public extension SBServerMenager {
         let msg: String?
     }
     fileprivate struct SBNetNilModel: Codable { }
+}
+
+public extension SBServerMenager {
+    /// 版本检查
+    class func checkVersion(completionHandler: @escaping (SBVersion?, Error?) -> Void) {
+        guard var url = URL(string: Self.shared.baseUrl) else {
+            completionHandler(nil, NSError(domain: "url error", code: 10001, userInfo: ["url": Self.shared.baseUrl]))
+            return
+        }
+        url.appendPathComponent("data/config/")
+        url.appendPathComponent(Self.shared.appName)
+        url.appendPathComponent(Self.comefrom) // comefrom
+        url.appendPathComponent(Self.comefrom) // channel
+        url.appendPathComponent(MemberToolBox.appVersion())
+        
+        var request = URLRequest.init(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
+        request.setValue(shared.language, forHTTPHeaderField: "Language")
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: request) { ( data, urlRespone, error) in
+            DispatchQueue.safe.async {
+                do {
+                    guard let _data = data else { throw NSError(domain: "no date", code: 10002, userInfo: ["url": url]) }
+                    let root = try JSONDecoder().decode(SBNetRootModel<SBVersion>.self, from: _data)
+                    root.data?.save()
+                    completionHandler(root.data, nil)
+                }catch {
+                    completionHandler(nil, error)
+                }
+            }
+        }.resume()
+    }
 }
 
 public struct SBAppModel : Codable {

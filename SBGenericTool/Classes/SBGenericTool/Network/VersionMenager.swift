@@ -94,7 +94,6 @@ public extension VersionMenager {
 public struct SBVersion: Codable {
     public var auditStatus: Int = 0
     public var advertStatus: Int = 0
-    public var versions: String?
     
     
     public init(audit: Int, advert: Int) {
@@ -102,9 +101,9 @@ public struct SBVersion: Codable {
         advertStatus = advert
     }
     
-    enum SBVersionCodingKeys: String, CodingKey {
-        case auditStatus, advertStatus
-        case versions
+    enum CodingKeys: String, CodingKey {
+        case auditStatus = "app_status"
+        case advertStatus = "ad_status"
     }
 }
 

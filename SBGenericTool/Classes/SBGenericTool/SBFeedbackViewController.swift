@@ -7,6 +7,12 @@
 
 import UIKit
 
+public class SBInternational {
+    public static let shared = SBInternational()
+    /// 本地语言
+    public var userLanguage : String?
+}
+
 public class SBFeedbackViewController: UIViewController {
     
     public var themeColor : UIColor = .systemBlue
