@@ -73,13 +73,13 @@ class ViewController: UITableViewController {
         case .dev:
             devAction()
         case .feedback:
-            SBInternational.shared.userLanguage = "zh-Hant"
+            SBServerMenager.shared.language = "zh-Hant"
             let vc = SBFeedbackViewController()
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case .version:
             SBServerMenager.checkVersion { (version, error) in
-                DispatchQueue.main.async {                
+                DispatchQueue.main.async {
                     self.loadServerVersion()
                 }
             }

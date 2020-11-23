@@ -26,7 +26,7 @@ extension Dictionary where Key == String, Value == Any {
     ///   - sequence: 签名顺序， 多个参数 用 , 隔开:  "app,server,version,key"
     ///   - signatureKey: md5盐值
     /// 
-    mutating func setSignature(_ sequence: String, signatureKey: String = VersionMenager.shared.key) {
+    mutating func setSignature(_ sequence: String, signatureKey: String = SBServerMenager.shared.key) {
         self["signature"] = sequence
             .components(separatedBy: ",")
             .reduce("", { (temp, key) -> String in
