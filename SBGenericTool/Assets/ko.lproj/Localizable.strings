@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  Pods
+
+  Created by 王剑鹏 on 2020/10/30.
+  
+*/
+"Feedback" = "문제 피드백";
+
+"Feedbacktitle" = "당신에게 더욱 좋은 서비스를 제공하기 위해서, 귀하가 저희들이 아래 문제를 완성하도록 도와주시기를 희망합니다. 대단히 감사합니다";
+
+"message" = "1. 우리의 소프트웨어는 어떤 장단점이 있다고 생각하십니까?부족한 점이 있으면 우리가 어떤 개선을 이루길 바라나요?";
+"message_supplement" = "의견과 제안을 가능한 한 자세히 설명해 주십시오. 요구를 이해하는 데 도움이 될 것입니다";
+"connet" = "2. 귀하의 메일박스 남겨두실 수 있습니다, 우리가 당신에게 편하게 연락할 수 있습니다";
+
+"send" = "발송";
+"sending" = "발송 중";
+
+"Sent successfully" = "발송 성공";
+"Failed to send" = "발송 실패";
+"Message cannot be empty" = "내용이 비어 있어서는 안 됩니다.";

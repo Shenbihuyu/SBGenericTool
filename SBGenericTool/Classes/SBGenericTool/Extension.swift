@@ -156,12 +156,12 @@ extension String {
     }
 }
 
+class NoUse {}
 //MARK: - pod内多语言
 extension String{
-    class NoUse {}
     var SBlocalized: String {
-        let bundlePaths = Bundle(for: NoUse.self).paths(forResourcesOfType: "bundle", inDirectory: nil)
-        guard let resourcePath = bundlePaths.first,
+//        let bundlePaths = Bundle(for: NoUse.self).paths(forResourcesOfType: "bundle", inDirectory: nil)
+        guard let resourcePath = Bundle(for: NoUse.self).path(forResource: "SBGenericTool", ofType: "bundle"),
               let resourceBundle = Bundle(path: resourcePath) // 资源包
         else {
             return self

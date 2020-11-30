@@ -73,7 +73,7 @@ class ViewController: UITableViewController {
         case .dev:
             devAction()
         case .feedback:
-            SBServerMenager.shared.language = "zh-Hant"
+            SBServerMenager.shared.language = "ko"
             let vc = SBFeedbackViewController()
             self.navigationController?.pushViewController(vc, animated: true)
             break
