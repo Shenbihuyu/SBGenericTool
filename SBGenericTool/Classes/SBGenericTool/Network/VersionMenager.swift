@@ -94,7 +94,7 @@ public extension VersionMenager {
 public struct SBVersion: Codable {
     public var auditStatus: Int = 0
     public var advertStatus: Int = 0
-    
+    public var adType : String = ADTypeDefault // admob (admob),buad(穿山甲)
     
     public init(audit: Int, advert: Int) {
         auditStatus = audit
@@ -104,9 +104,11 @@ public struct SBVersion: Codable {
     enum CodingKeys: String, CodingKey {
         case auditStatus = "app_status"
         case advertStatus = "ad_status"
+        case adType = "ad_type"
     }
 }
 
+let ADTypeDefault = "auto"
 // MARK:- save & load
 public extension SBVersion {
     static let saveKey = "com.shenbihuyu.version"
@@ -136,6 +138,12 @@ public extension SBVersion {
     static var guanggao : Bool {
         guard let model = Self.default else { return false }
         return model.advertStatus != 0
+    }
+    
+    /// 是否开启广告
+    static var adType : String {
+        guard let model = Self.default else { return ADTypeDefault }
+        return model.adType
     }
 }
 

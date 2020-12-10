@@ -46,9 +46,9 @@ class ViewController: UITableViewController {
     }
     
     func loadServerVersion() {
-        serverVersionLabel.text = (SBVersion.anquan ? "安全" : "不安全") +
-            " , " +
-            (SBVersion.guanggao ? "开广告" : "关广告")
+        serverVersionLabel.text = [(SBVersion.anquan ? "安全" : "不安全"),
+                                   (SBVersion.guanggao ? "开广告" : "关广告"),
+                                   SBVersion.adType].joined(separator: " , ")
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
